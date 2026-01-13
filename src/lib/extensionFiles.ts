@@ -38,7 +38,7 @@ export const popupHtml = `<!DOCTYPE html>
       width: 320px;
       padding: 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0a0a0a;
+      background: #000000;
       color: #ffffff;
     }
     .header {
@@ -71,17 +71,17 @@ export const popupHtml = `<!DOCTYPE html>
       box-shadow: 0 4px 15px rgba(246, 118, 24, 0.3);
     }
     .inactive { 
-      background: #1a1a1a;
+      background: #111111;
       color: #888;
-      border: 1px solid #333;
+      border: 1px solid #222;
     }
     
     .section {
-      background: #1a1a1a;
+      background: #111111;
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 12px;
-      border: 1px solid #2a2a2a;
+      border: 1px solid #222;
     }
     .section-title {
       font-size: 12px;
@@ -101,9 +101,9 @@ export const popupHtml = `<!DOCTYPE html>
     .delay-config input {
       width: 70px;
       padding: 10px;
-      border: 1px solid #333;
+      border: 1px solid #222;
       border-radius: 6px;
-      background: #0a0a0a;
+      background: #000000;
       color: white;
       font-size: 14px;
       text-align: center;
@@ -116,9 +116,9 @@ export const popupHtml = `<!DOCTYPE html>
     .delay-config select {
       flex: 1;
       padding: 10px;
-      border: 1px solid #333;
+      border: 1px solid #222;
       border-radius: 6px;
-      background: #0a0a0a;
+      background: #000000;
       color: white;
       font-size: 14px;
       cursor: pointer;
@@ -155,7 +155,7 @@ export const popupHtml = `<!DOCTYPE html>
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #333;
+      background-color: #222;
       transition: 0.3s;
       border-radius: 26px;
     }
@@ -181,7 +181,7 @@ export const popupHtml = `<!DOCTYPE html>
       display: none;
       margin-top: 12px;
       padding-top: 12px;
-      border-top: 1px solid #333;
+      border-top: 1px solid #222;
     }
     .time-config.visible {
       display: block;
@@ -200,9 +200,9 @@ export const popupHtml = `<!DOCTYPE html>
     .time-row input[type="time"] {
       flex: 1;
       padding: 8px;
-      border: 1px solid #333;
+      border: 1px solid #222;
       border-radius: 6px;
-      background: #0a0a0a;
+      background: #000000;
       color: white;
       font-size: 13px;
     }
@@ -240,7 +240,7 @@ export const popupHtml = `<!DOCTYPE html>
       background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     }
     #runBtn {
-      background: #1a1a1a;
+      background: #000000;
       color: #F67618;
       border: 2px solid #F67618;
     }
@@ -257,7 +257,7 @@ export const popupHtml = `<!DOCTYPE html>
       text-align: center;
       margin-top: 15px;
       padding-top: 15px;
-      border-top: 1px solid #2a2a2a;
+      border-top: 1px solid #222;
     }
     .footer a {
       color: #888;
