@@ -2,9 +2,9 @@
 
 export const manifestJson = `{
   "manifest_version": 3,
-  "name": "FB Auto Remover",
+  "name": "Zapdata Rotator",
   "version": "4.0",
-  "description": "Remove automaticamente números do WhatsApp do Facebook",
+  "description": "Remove automaticamente numeros do WhatsApp do Facebook",
   "permissions": ["activeTab", "scripting", "alarms", "tabs", "storage"],
   "background": {
     "service_worker": "background.js"
@@ -27,6 +27,7 @@ export const manifestJson = `{
 export const popupHtml = `<!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <style>
     * {
       box-sizing: border-box;
@@ -272,13 +273,13 @@ export const popupHtml = `<!DOCTYPE html>
 <body>
   <div class="header">
     <img src="icon.png" alt="Logo">
-    <h1>FB AUTO REMOVER</h1>
+    <h1>ZAPDATA ROTATOR</h1>
   </div>
   
-  <div id="status" class="status inactive">⏸️ INATIVO</div>
+  <div id="status" class="status inactive">INATIVO</div>
   
   <div class="section">
-    <div class="section-title">⏱️ Configurar Delay</div>
+    <div class="section-title">CONFIGURAR DELAY</div>
     <div class="delay-config">
       <input type="number" id="delayValue" min="1" max="999" value="1" placeholder="1">
       <select id="delayUnit">
@@ -289,9 +290,9 @@ export const popupHtml = `<!DOCTYPE html>
   </div>
   
   <div class="section">
-    <div class="section-title">🕐 Horário Específico</div>
+    <div class="section-title">HORARIO ESPECIFICO</div>
     <div class="toggle-row">
-      <span class="toggle-label">Ativar delay por horário</span>
+      <span class="toggle-label">Ativar delay por horario</span>
       <label class="toggle-switch">
         <input type="checkbox" id="scheduleToggle">
         <span class="toggle-slider"></span>
@@ -299,14 +300,14 @@ export const popupHtml = `<!DOCTYPE html>
     </div>
     <div id="timeConfig" class="time-config">
       <div class="time-row">
-        <label>Início:</label>
+        <label>Inicio:</label>
         <input type="time" id="startTime" value="09:00">
       </div>
       <div class="time-row">
         <label>Fim:</label>
         <input type="time" id="endTime" value="18:00">
       </div>
-      <span class="special-delay-label">Delay durante este período:</span>
+      <span class="special-delay-label">Delay durante este periodo:</span>
       <div class="delay-config">
         <input type="number" id="specialDelayValue" min="1" max="999" value="5" placeholder="5">
         <select id="specialDelayUnit">
@@ -317,8 +318,8 @@ export const popupHtml = `<!DOCTYPE html>
     </div>
   </div>
   
-  <button id="delayBtn">🟢 EXECUTAR COM DELAY</button>
-  <button id="runBtn">⚡ EXECUTAR AGORA</button>
+  <button id="delayBtn">EXECUTAR COM DELAY</button>
+  <button id="runBtn">EXECUTAR AGORA</button>
   
   <div class="footer">
     <a href="https://instagram.com/joaolucassps" target="_blank">Criado por @joaolucassps</a>
@@ -341,7 +342,7 @@ const endTime = document.getElementById('endTime');
 const specialDelayValue = document.getElementById('specialDelayValue');
 const specialDelayUnit = document.getElementById('specialDelayUnit');
 
-// Carregar configurações salvas
+// Carregar configuracoes salvas
 chrome.storage.local.get([
   'autoActive',
   'delayValue',
@@ -367,7 +368,7 @@ chrome.storage.local.get([
   if (result.specialDelayUnit) specialDelayUnit.value = result.specialDelayUnit;
 });
 
-// Toggle horário específico
+// Toggle horario especifico
 scheduleToggle.addEventListener('change', () => {
   if (scheduleToggle.checked) {
     timeConfig.classList.add('visible');
@@ -377,7 +378,7 @@ scheduleToggle.addEventListener('change', () => {
   saveSettings();
 });
 
-// Salvar configurações ao alterar
+// Salvar configuracoes ao alterar
 [delayValue, delayUnit, startTime, endTime, specialDelayValue, specialDelayUnit].forEach(el => {
   el.addEventListener('change', saveSettings);
 });
@@ -394,7 +395,7 @@ function saveSettings() {
   });
 }
 
-// Botão Executar com Delay
+// Botao Executar com Delay
 delayBtn.addEventListener('click', () => {
   const isActive = delayBtn.classList.contains('active');
   
@@ -422,15 +423,15 @@ delayBtn.addEventListener('click', () => {
   }
 });
 
-// Botão Executar Agora
+// Botao Executar Agora
 runBtn.addEventListener('click', () => {
   runBtn.disabled = true;
-  runBtn.textContent = '⏳ EXECUTANDO...';
+  runBtn.textContent = 'EXECUTANDO...';
   
   chrome.runtime.sendMessage({ action: 'runNow' }, () => {
-    runBtn.textContent = '✅ CONCLUÍDO!';
+    runBtn.textContent = 'CONCLUIDO!';
     setTimeout(() => {
-      runBtn.textContent = '⚡ EXECUTAR AGORA';
+      runBtn.textContent = 'EXECUTAR AGORA';
       runBtn.disabled = false;
     }, 2000);
   });
@@ -442,23 +443,23 @@ function updateUI(isActive) {
   
   if (isActive) {
     statusDiv.className = 'status active';
-    statusDiv.textContent = \`✅ ATIVO (\${delayText})\`;
+    statusDiv.textContent = \`ATIVO (\${delayText})\`;
     delayBtn.classList.add('active');
-    delayBtn.textContent = '🔴 DESATIVAR DELAY';
+    delayBtn.textContent = 'DESATIVAR DELAY';
   } else {
     statusDiv.className = 'status inactive';
-    statusDiv.textContent = '⏸️ INATIVO';
+    statusDiv.textContent = 'INATIVO';
     delayBtn.classList.remove('active');
-    delayBtn.textContent = '🟢 EXECUTAR COM DELAY';
+    delayBtn.textContent = 'EXECUTAR COM DELAY';
   }
 }`;
 
-export const backgroundJs = `// Fuso horário de São Paulo (UTC-3)
+export const backgroundJs = `// Fuso horario de Sao Paulo (UTC-3)
 const SAO_PAULO_OFFSET = -3;
 
-// Quando extensão é instalada
+// Quando extensao e instalada
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('✅ Extensão instalada - v4.0');
+  console.log('Extensao instalada - v4.0');
 });
 
 // Quando navegador inicia
@@ -473,12 +474,12 @@ chrome.runtime.onStartup.addListener(() => {
 // Escutar alarme
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'autoRemove') {
-    console.log('⏰ Alarme disparado, verificando configurações...');
+    console.log('Alarme disparado, verificando configuracoes...');
     checkAndExecute();
   }
 });
 
-// Obter hora atual de São Paulo
+// Obter hora atual de Sao Paulo
 function getSaoPauloTime() {
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -486,7 +487,7 @@ function getSaoPauloTime() {
   return saoPauloTime;
 }
 
-// Verificar se está no horário específico
+// Verificar se esta no horario especifico
 function isInScheduledTime(startTime, endTime) {
   const now = getSaoPauloTime();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
@@ -504,7 +505,7 @@ function isInScheduledTime(startTime, endTime) {
   return currentMinutes >= startMinutes && currentMinutes < endMinutes;
 }
 
-// Verificar condições e executar
+// Verificar condicoes e executar
 async function checkAndExecute() {
   const settings = await chrome.storage.local.get([
     'autoActive',
@@ -519,21 +520,21 @@ async function checkAndExecute() {
   ]);
   
   if (!settings.autoActive) {
-    console.log('❌ Extensão não está ativa');
+    console.log('Extensao nao esta ativa');
     return;
   }
   
-  console.log('📊 Configurações:', settings);
-  console.log('🕐 Hora atual (São Paulo):', getSaoPauloTime().toLocaleTimeString('pt-BR'));
+  console.log('Configuracoes:', settings);
+  console.log('Hora atual (Sao Paulo):', getSaoPauloTime().toLocaleTimeString('pt-BR'));
   
   if (settings.scheduleEnabled && settings.startTime && settings.endTime) {
     const inSchedule = isInScheduledTime(settings.startTime, settings.endTime);
-    console.log(\`📅 Horário específico \${settings.startTime}-\${settings.endTime}: \${inSchedule ? 'DENTRO' : 'FORA'}\`);
+    console.log(\`Horario especifico \${settings.startTime}-\${settings.endTime}: \${inSchedule ? 'DENTRO' : 'FORA'}\`);
     
     if (inSchedule) {
-      console.log(\`⚡ Usando delay especial: \${settings.specialDelayValue} \${settings.specialDelayUnit}\`);
+      console.log(\`Usando delay especial: \${settings.specialDelayValue} \${settings.specialDelayUnit}\`);
     } else {
-      console.log(\`⏱️ Usando delay normal: \${settings.delayValue} \${settings.delayUnit}\`);
+      console.log(\`Usando delay normal: \${settings.delayValue} \${settings.delayUnit}\`);
     }
   }
   
@@ -564,7 +565,7 @@ async function startTimer() {
       if (settings.specialDelayUnit === 'hours') {
         periodInMinutes *= 60;
       }
-      console.log(\`🕐 Dentro do horário especial, usando delay: \${periodInMinutes} min\`);
+      console.log(\`Dentro do horario especial, usando delay: \${periodInMinutes} min\`);
     }
   }
   
@@ -574,7 +575,7 @@ async function startTimer() {
     periodInMinutes: periodInMinutes
   });
   
-  console.log(\`🚀 Timer iniciado: a cada \${periodInMinutes} minuto(s)\`);
+  console.log(\`Timer iniciado: a cada \${periodInMinutes} minuto(s)\`);
   
   if (settings.scheduleEnabled) {
     chrome.alarms.create('checkSchedule', {
@@ -587,10 +588,10 @@ async function startTimer() {
 function stopTimer() {
   chrome.alarms.clear('autoRemove');
   chrome.alarms.clear('checkSchedule');
-  console.log('🔴 Timer parado');
+  console.log('Timer parado');
 }
 
-// Listener para verificar mudança de horário
+// Listener para verificar mudanca de horario
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'checkSchedule') {
     const settings = await chrome.storage.local.get(['autoActive', 'scheduleEnabled']);
@@ -608,11 +609,11 @@ async function executeOnAllTabs() {
     tab.url && tab.url.includes('facebook.com/settings') && tab.url.includes('linked_whatsapp')
   );
   
-  console.log(\`📑 Encontradas \${facebookTabs.length} abas do Facebook WhatsApp\`);
+  console.log(\`Encontradas \${facebookTabs.length} abas do Facebook WhatsApp\`);
   
   for (let i = 0; i < facebookTabs.length; i++) {
     const tab = facebookTabs[i];
-    console.log(\`🔄 Processando aba \${i + 1}/\${facebookTabs.length}\`);
+    console.log(\`Processando aba \${i + 1}/\${facebookTabs.length}\`);
     
     try {
       await chrome.scripting.executeScript({
@@ -620,31 +621,31 @@ async function executeOnAllTabs() {
         func: removeNumber
       });
       
-      console.log(\`✅ Aba \${i + 1} processada\`);
+      console.log(\`Aba \${i + 1} processada\`);
       
       if (i < facebookTabs.length - 1) {
         await sleep(10000);
       }
       
     } catch (error) {
-      console.error(\`❌ Erro na aba \${i + 1}:\`, error);
+      console.error(\`Erro na aba \${i + 1}:\`, error);
     }
   }
   
-  console.log('🎉 Todas as abas processadas!');
+  console.log('Todas as abas processadas!');
 }
 
-// Função que remove o número
+// Funcao que remove o numero
 async function removeNumber() {
-  console.log('🗑️ Iniciando remoção...');
+  console.log('Iniciando remocao...');
   
   await new Promise(r => setTimeout(r, 3000));
   
-  console.log('🔍 Procurando botões...');
-  console.log('Total de botões na página:', document.querySelectorAll('div[role="button"]').length);
+  console.log('Procurando botoes...');
+  console.log('Total de botoes na pagina:', document.querySelectorAll('div[role="button"]').length);
   
-  let btnRemove = document.querySelector('[aria-label*="Remover o número do WhatsApp"]');
-  console.log('Botão por aria-label:', btnRemove);
+  let btnRemove = document.querySelector('[aria-label*="Remover o numero do WhatsApp"]');
+  console.log('Botao por aria-label:', btnRemove);
   
   if (!btnRemove) {
     const allButtons = Array.from(document.querySelectorAll('div[role="button"]'));
@@ -657,20 +658,20 @@ async function removeNumber() {
       return hasRemover && hasIcon;
     });
     
-    console.log('Botão encontrado por texto:', btnRemove);
+    console.log('Botao encontrado por texto:', btnRemove);
     
     if (!btnRemove) {
       btnRemove = allButtons.find(btn => btn.textContent.includes('Remover'));
-      console.log('Pegando primeiro botão com "Remover":', btnRemove);
+      console.log('Pegando primeiro botao com "Remover":', btnRemove);
     }
   }
   
   if (!btnRemove) {
-    console.log('❌ Botão não encontrado');
+    console.log('Botao nao encontrado');
     return;
   }
   
-  console.log('✅ Clicando remover...');
+  console.log('Clicando remover...');
   btnRemove.click();
   
   await new Promise(r => setTimeout(r, 1500));
@@ -681,14 +682,14 @@ async function removeNumber() {
                      );
   
   if (btnConfirm) {
-    console.log('✅ Confirmando...');
+    console.log('Confirmando...');
     btnConfirm.click();
     
     await new Promise(r => setTimeout(r, 3000));
-    console.log('🔄 Atualizando página...');
+    console.log('Atualizando pagina...');
     location.reload();
   } else {
-    console.log('❌ Botão de confirmação não encontrado');
+    console.log('Botao de confirmacao nao encontrado');
   }
 }
 
