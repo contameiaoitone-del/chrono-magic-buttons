@@ -1,14 +1,11 @@
-import { Download, Clock, Calendar, Zap, Shield, RefreshCw } from "lucide-react";
+import { Download, Clock, Calendar, Zap, Shield, RefreshCw, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StepCard } from "@/components/StepCard";
+import { useDownloadExtension } from "@/hooks/useDownloadExtension";
 
 const Index = () => {
-  const handleDownload = () => {
-    // Criar ZIP da extensão
-    window.open('/extension/manifest.json', '_blank');
-    alert('Para instalar a extensão:\n\n1. Baixe todos os arquivos da pasta /extension\n2. Abra chrome://extensions\n3. Ative "Modo do desenvolvedor"\n4. Clique em "Carregar sem compactação"\n5. Selecione a pasta com os arquivos');
-  };
+  const { downloadExtension, isDownloading } = useDownloadExtension();
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,11 +49,21 @@ const Index = () => {
             >
               <Button
                 size="lg"
-                onClick={handleDownload}
-                className="bg-gradient-to-r from-primary to-orange-dark hover:from-orange-dark hover:to-primary text-primary-foreground font-bold px-8 py-6 text-lg rounded-xl glow-orange transition-all duration-300 hover:scale-105"
+                onClick={downloadExtension}
+                disabled={isDownloading}
+                className="bg-gradient-to-r from-primary to-orange-dark hover:from-orange-dark hover:to-primary text-primary-foreground font-bold px-8 py-6 text-lg rounded-xl glow-orange transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-wait disabled:hover:scale-100"
               >
-                <Download className="w-5 h-5 mr-2" />
-                Baixar Extensão v4.0
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Gerando ZIP...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 mr-2" />
+                    Baixar Extensão v4.0
+                  </>
+                )}
               </Button>
               <p className="text-muted-foreground text-sm mt-4">
                 Compatível com Google Chrome e navegadores baseados em Chromium
