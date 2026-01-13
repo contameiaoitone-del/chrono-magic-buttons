@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 320px;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #F67618;
+    }
+    .header img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-size: 16px;
+      color: #F67618;
+      font-weight: bold;
+    }
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .active { 
+      background: linear-gradient(135deg, #F67618 0%, #d4630f 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(246, 118, 24, 0.3);
+    }
+    .inactive { 
+      background: #1a1a1a;
+      color: #888;
+      border: 1px solid #333;
+    }
+    
+    .section {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+      border: 1px solid #2a2a2a;
+    }
+    .section-title {
+      font-size: 12px;
+      color: #F67618;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    
+    .delay-config {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .delay-config input {
+      width: 70px;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #0a0a0a;
+      color: white;
+      font-size: 14px;
+      text-align: center;
+    }
+    .delay-config input:focus {
+      outline: none;
+      border-color: #F67618;
+      box-shadow: 0 0 0 2px rgba(246, 118, 24, 0.2);
+    }
+    .delay-config select {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #0a0a0a;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .delay-config select:focus {
+      outline: none;
+      border-color: #F67618;
+    }
+    
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .toggle-label {
+      font-size: 13px;
+      color: #ccc;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: #F67618;
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+    
+    .time-config {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #333;
+    }
+    .time-config.visible {
+      display: block;
+    }
+    .time-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .time-row label {
+      width: 50px;
+      font-size: 12px;
+      color: #888;
+    }
+    .time-row input[type="time"] {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #0a0a0a;
+      color: white;
+      font-size: 13px;
+    }
+    .time-row input[type="time"]:focus {
+      outline: none;
+      border-color: #F67618;
+    }
+    .special-delay-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    #delayBtn {
+      background: linear-gradient(135deg, #F67618 0%, #d4630f 100%);
+      color: white;
+    }
+    #delayBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(246, 118, 24, 0.4);
+    }
+    #delayBtn.active {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+    #runBtn {
+      background: #1a1a1a;
+      color: #F67618;
+      border: 2px solid #F67618;
+    }
+    #runBtn:hover {
+      background: #F67618;
+      color: white;
+    }
+    #runBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #2a2a2a;
+    }
+    .footer a {
+      color: #888;
+      text-decoration: none;
+      font-size: 11px;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #F67618;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icon.png" alt="Logo">
+    <h1>FB AUTO REMOVER</h1>
+  </div>
+  
+  <div id="status" class="status inactive">⏸️ INATIVO</div>
+  
+  <div class="section">
+    <div class="section-title">⏱️ Configurar Delay</div>
+    <div class="delay-config">
+      <input type="number" id="delayValue" min="1" max="999" value="1" placeholder="1">
+      <select id="delayUnit">
+        <option value="minutes">Minutos</option>
+        <option value="hours">Horas</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="section">
+    <div class="section-title">🕐 Horário Específico</div>
+    <div class="toggle-row">
+      <span class="toggle-label">Ativar delay por horário</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="scheduleToggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div id="timeConfig" class="time-config">
+      <div class="time-row">
+        <label>Início:</label>
+        <input type="time" id="startTime" value="09:00">
+      </div>
+      <div class="time-row">
+        <label>Fim:</label>
+        <input type="time" id="endTime" value="18:00">
+      </div>
+      <span class="special-delay-label">Delay durante este período:</span>
+      <div class="delay-config">
+        <input type="number" id="specialDelayValue" min="1" max="999" value="5" placeholder="5">
+        <select id="specialDelayUnit">
+          <option value="minutes">Minutos</option>
+          <option value="hours">Horas</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <button id="delayBtn">🟢 EXECUTAR COM DELAY</button>
+  <button id="runBtn">⚡ EXECUTAR AGORA</button>
+  
+  <div class="footer">
+    <a href="https://instagram.com/joaolucassps" target="_blank">Criado por @joaolucassps</a>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
