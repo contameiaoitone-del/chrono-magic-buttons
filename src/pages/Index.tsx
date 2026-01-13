@@ -29,8 +29,8 @@ const Index = () => {
               className="text-4xl md:text-6xl font-black mb-6 animate-fade-in"
               style={{ animationDelay: '100ms' }}
             >
-              <span className="text-foreground">FB </span>
-              <span className="text-gradient">Auto Remover</span>
+              <span className="text-foreground">Zapdata </span>
+              <span className="text-gradient">Rotator</span>
             </h1>
             
             {/* Subtitle */}
@@ -38,8 +38,8 @@ const Index = () => {
               className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in"
               style={{ animationDelay: '200ms' }}
             >
-              Automatize a remoção de números do WhatsApp vinculados às suas páginas do Facebook 
-              com delays personalizados e horários específicos.
+              Automatize a rotacao de numeros do WhatsApp vinculados as suas paginas do Facebook 
+              com delays personalizados e horarios especificos.
             </p>
             
             {/* CTA Button */}
@@ -137,17 +137,17 @@ const Index = () => {
                   <div className="w-12 h-12 bg-gradient-to-br from-primary to-orange-dark rounded-lg flex items-center justify-center mx-auto mb-2">
                     <span className="text-2xl font-black text-primary-foreground">Z</span>
                   </div>
-                  <h3 className="text-primary font-bold text-sm">FB AUTO REMOVER</h3>
+                  <h3 className="text-primary font-bold text-sm">ZAPDATA ROTATOR</h3>
                 </div>
                 
                 {/* Status */}
                 <div className="bg-gradient-to-r from-primary to-orange-dark rounded-lg py-3 text-center mb-4">
-                  <span className="text-primary-foreground font-bold text-sm">✅ ATIVO (5 min)</span>
+                  <span className="text-primary-foreground font-bold text-sm">ATIVO (5 min)</span>
                 </div>
                 
                 {/* Config Section */}
                 <div className="bg-[#1a1a1a] rounded-lg p-4 mb-3 border border-[#2a2a2a]">
-                  <p className="text-primary text-xs uppercase tracking-wider font-bold mb-3">⏱️ Configurar Delay</p>
+                  <p className="text-primary text-xs uppercase tracking-wider font-bold mb-3">CONFIGURAR DELAY</p>
                   <div className="flex gap-2">
                     <div className="bg-[#0a0a0a] border border-[#333] rounded-md px-3 py-2 text-foreground text-sm w-16 text-center">5</div>
                     <div className="bg-[#0a0a0a] border border-[#333] rounded-md px-3 py-2 text-foreground text-sm flex-1">Minutos</div>
@@ -156,10 +156,10 @@ const Index = () => {
                 
                 {/* Buttons */}
                 <button className="w-full bg-gradient-to-r from-red-500 to-red-600 text-primary-foreground py-3 rounded-lg font-bold text-sm mb-2">
-                  🔴 DESATIVAR DELAY
+                  DESATIVAR DELAY
                 </button>
                 <button className="w-full bg-[#1a1a1a] border-2 border-primary text-primary py-3 rounded-lg font-bold text-sm">
-                  ⚡ EXECUTAR AGORA
+                  EXECUTAR AGORA
                 </button>
                 
                 {/* Footer */}
@@ -222,7 +222,7 @@ const Index = () => {
               Criado por @joaolucassps
             </a>
             <p className="text-muted-foreground/50 text-xs mt-2">
-              FB Auto Remover v4.0 • Todos os direitos reservados
+              Zapdata Rotator v4.0 - Todos os direitos reservados
             </p>
           </div>
         </div>

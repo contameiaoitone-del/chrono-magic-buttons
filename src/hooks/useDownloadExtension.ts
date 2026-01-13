@@ -27,7 +27,7 @@ export const useDownloadExtension = () => {
       const content = await zip.generateAsync({ type: 'blob' });
       
       // Download
-      saveAs(content, 'FB-Auto-Remover-v4.0.zip');
+      saveAs(content, 'Zapdata-Rotator-v4.0.zip');
       
     } catch (error) {
       console.error('Error creating ZIP:', error);
