@@ -10,6 +10,10 @@ const startTime = document.getElementById('startTime');
 const endTime = document.getElementById('endTime');
 const specialDelayValue = document.getElementById('specialDelayValue');
 const specialDelayUnit = document.getElementById('specialDelayUnit');
+const countdownDiv = document.getElementById('countdown');
+const countdownTime = document.getElementById('countdownTime');
+
+let countdownInterval = null;
 
 // Carregar configurações salvas
 chrome.storage.local.get([
@@ -123,10 +127,104 @@ function updateUI(isActive) {
     statusDiv.textContent = `✅ ATIVO (${delayText})`;
     delayBtn.classList.add('active');
     delayBtn.textContent = '🔴 DESATIVAR DELAY';
+    startCountdown();
   } else {
     statusDiv.className = 'status inactive';
     statusDiv.textContent = '⏸️ INATIVO';
     delayBtn.classList.remove('active');
     delayBtn.textContent = '🟢 EXECUTAR COM DELAY';
+    stopCountdown();
   }
+}
+
+// Funções do countdown
+function startCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  
+  updateCountdownDisplay();
+  countdownInterval = setInterval(updateCountdownDisplay, 1000);
+}
+
+function stopCountdown() {
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  countdownDiv.classList.remove('visible');
+}
+
+function updateCountdownDisplay() {
+  chrome.storage.local.get([
+    'activationTime',
+    'delayValue',
+    'delayUnit',
+    'scheduleEnabled',
+    'startTime',
+    'endTime',
+    'specialDelayValue',
+    'specialDelayUnit'
+  ], (result) => {
+    if (!result.activationTime) {
+      stopCountdown();
+      return;
+    }
+    
+    // Calcular delay atual (normal ou especial baseado no horário)
+    let currentDelay = result.delayValue || 1;
+    let currentUnit = result.delayUnit || 'minutes';
+    
+    if (result.scheduleEnabled && result.startTime && result.endTime) {
+      const now = new Date();
+      const [startH, startM] = result.startTime.split(':').map(Number);
+      const [endH, endM] = result.endTime.split(':').map(Number);
+      
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const startMinutes = startH * 60 + startM;
+      const endMinutes = endH * 60 + endM;
+      
+      const isInSchedule = startMinutes <= endMinutes
+        ? currentMinutes >= startMinutes && currentMinutes < endMinutes
+        : currentMinutes >= startMinutes || currentMinutes < endMinutes;
+      
+      if (isInSchedule) {
+        currentDelay = result.specialDelayValue || 5;
+        currentUnit = result.specialDelayUnit || 'minutes';
+      }
+    }
+    
+    // Converter delay para ms
+    const delayMs = currentUnit === 'hours' 
+      ? currentDelay * 60 * 60 * 1000 
+      : currentDelay * 60 * 1000;
+    
+    // Calcular próxima execução
+    const nextExecution = result.activationTime + delayMs;
+    const remaining = nextExecution - Date.now();
+    
+    if (remaining <= 0) {
+      // Se já passou, recalcular baseado no ciclo atual
+      const cyclesPassed = Math.floor((Date.now() - result.activationTime) / delayMs);
+      const nextCycle = result.activationTime + (cyclesPassed + 1) * delayMs;
+      const newRemaining = nextCycle - Date.now();
+      displayTime(newRemaining);
+    } else {
+      displayTime(remaining);
+    }
+    
+    countdownDiv.classList.add('visible');
+  });
+}
+
+function displayTime(ms) {
+  if (ms < 0) ms = 0;
+  
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  
+  countdownTime.textContent = 
+    String(hours).padStart(2, '0') + ':' + 
+    String(minutes).padStart(2, '0') + ':' + 
+    String(seconds).padStart(2, '0');
 }
