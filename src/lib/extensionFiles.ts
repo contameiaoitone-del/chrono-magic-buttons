@@ -354,8 +354,6 @@ chrome.storage.local.get([
   'specialDelayUnit',
   'activationTime'
 ], (result) => {
-  updateUI(result.autoActive || false);
-  
   // Usar !== undefined para permitir valores como 0 ou strings vazias
   if (result.delayValue !== undefined) delayValue.value = result.delayValue;
   if (result.delayUnit !== undefined) delayUnit.value = result.delayUnit;
@@ -367,6 +365,9 @@ chrome.storage.local.get([
   if (result.endTime !== undefined) endTime.value = result.endTime;
   if (result.specialDelayValue !== undefined) specialDelayValue.value = result.specialDelayValue;
   if (result.specialDelayUnit !== undefined) specialDelayUnit.value = result.specialDelayUnit;
+
+  // Importante: atualizar UI depois de restaurar os valores (senão mostra 1 min mesmo com 10h salvo)
+  updateUI(result.autoActive || false);
 });
 
 // Toggle horario especifico
