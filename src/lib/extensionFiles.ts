@@ -356,16 +356,17 @@ chrome.storage.local.get([
 ], (result) => {
   updateUI(result.autoActive || false);
   
-  if (result.delayValue) delayValue.value = result.delayValue;
-  if (result.delayUnit) delayUnit.value = result.delayUnit;
+  // Usar !== undefined para permitir valores como 0 ou strings vazias
+  if (result.delayValue !== undefined) delayValue.value = result.delayValue;
+  if (result.delayUnit !== undefined) delayUnit.value = result.delayUnit;
   if (result.scheduleEnabled) {
     scheduleToggle.checked = true;
     timeConfig.classList.add('visible');
   }
-  if (result.startTime) startTime.value = result.startTime;
-  if (result.endTime) endTime.value = result.endTime;
-  if (result.specialDelayValue) specialDelayValue.value = result.specialDelayValue;
-  if (result.specialDelayUnit) specialDelayUnit.value = result.specialDelayUnit;
+  if (result.startTime !== undefined) startTime.value = result.startTime;
+  if (result.endTime !== undefined) endTime.value = result.endTime;
+  if (result.specialDelayValue !== undefined) specialDelayValue.value = result.specialDelayValue;
+  if (result.specialDelayUnit !== undefined) specialDelayUnit.value = result.specialDelayUnit;
 });
 
 // Toggle horario especifico
@@ -378,10 +379,15 @@ scheduleToggle.addEventListener('change', () => {
   saveSettings();
 });
 
-// Salvar configuracoes ao alterar
-[delayValue, delayUnit, startTime, endTime, specialDelayValue, specialDelayUnit].forEach(el => {
+// Salvar configuracoes ao alterar - usar tanto change quanto input para capturar todas as alteracoes
+[delayValue, specialDelayValue].forEach(el => {
+  el.addEventListener('input', saveSettings);
   el.addEventListener('change', saveSettings);
 });
+[delayUnit, startTime, endTime, specialDelayUnit].forEach(el => {
+  el.addEventListener('change', saveSettings);
+});
+scheduleToggle.addEventListener('change', saveSettings);
 
 function saveSettings() {
   chrome.storage.local.set({
