@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FB Auto Remover",
+  "name": "Zapdata Rotator",
   "version": "4.0",
-  "description": "Remove automaticamente números do WhatsApp do Facebook",
+  "description": "Rotacao automatica de numeros do WhatsApp do Facebook",
   "permissions": ["activeTab", "scripting", "alarms", "tabs", "storage"],
   "background": {
     "service_worker": "background.js"
